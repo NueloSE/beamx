@@ -1,11 +1,13 @@
 import React from "react";
 import ChatBot from "../components/Chat";
 import Header from "@/components/Headers";
+import TypeWriterComp from "@/components/TypeWriterComp";
 
 export default function Home() {
   return (
     <div>
       <Header />
+            <TypeWriterComp />
       <div className="grid grid-cols-2">
         <div>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quidem
@@ -15,6 +17,7 @@ export default function Home() {
         </div>
         <ChatBot />
       </div>
+
     </div>
   );
 }
