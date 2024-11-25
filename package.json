@@ -21,6 +21,7 @@
     "@starknet-react/core": "3.6.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "dotenv": "^16.4.5",
     "framer-motion": "11.11.17",
     "get-starknet": "3.3.3",
     "get-starknet-core": "3.3.4",
