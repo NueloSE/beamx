@@ -7,8 +7,17 @@ export default function Home() {
   return (
     <div>
       <Header />
-      <TypeWriterComp />
-      <ChatBot />
+            <TypeWriterComp />
+      <div className="grid grid-cols-2">
+        <div>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quidem
+          assumenda pariatur incidunt distinctio facere, modi officia eveniet
+          voluptatem possimus eum, dolores nostrum iusto eius sit, illum quam
+          eligendi fugit.
+        </div>
+        <ChatBot />
+      </div>
+
     </div>
   );
 }
