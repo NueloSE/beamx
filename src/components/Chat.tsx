@@ -5,23 +5,6 @@ import logo from "../../public/logo.webp";
 import user from "../../public/user.png";
 import { Roboto } from "next/font/google";
 
-const url = "https://api.brianknows.org/api/v0/agent/parameters-extraction";
-const options = {
-  method: "POST",
-  headers: { "X-Brian-Api-Key": "brian_rP2NcP3g4nuKYZukm", "Content-Type": "application/json" },
-  body: '{"prompt":"launch a memecoin with the name urjung and the symbol should be ugn with an initials supply of 2000","messages":[{"sender":"user","content":""}]}',
-};
-
-// const async lorem = () => {
-  try {
-    const response = await fetch(url, options);
-    const data = await response.json();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-// }
-
 const roboto = Roboto({ weight: ["400"], subsets: ["latin"] });
 
 const ChatBot: React.FC = () => {
