@@ -2,11 +2,13 @@ import React from "react";
 import ChatBot from "../components/Chat";
 import Header from "@/components/Headers";
 import TypeWriterComp from "@/components/TypeWriterComp";
+import BrianTesting from "@/components/BrianTesting";
 
 export default function Home() {
   return (
     <div>
       <Header />
+{/*       
             <TypeWriterComp />
       <div className="grid grid-cols-2">
         <div>
@@ -16,7 +18,8 @@ export default function Home() {
           eligendi fugit.
         </div>
         <ChatBot />
-      </div>
+      </div> */}
+      <BrianTesting />
 
     </div>
   );
