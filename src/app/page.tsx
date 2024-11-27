@@ -8,8 +8,7 @@ export default function Home() {
   return (
     <div>
       <Header />
-{/*       
-            <TypeWriterComp />
+      <TypeWriterComp />
       <div className="grid grid-cols-2">
         <div>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quidem
@@ -18,9 +17,7 @@ export default function Home() {
           eligendi fugit.
         </div>
         <ChatBot />
-      </div> */}
-      <BrianTesting />
-
+      </div>
     </div>
   );
 }
