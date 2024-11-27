@@ -2,19 +2,22 @@ import React from "react";
 import ChatBot from "../components/Chat";
 import Header from "@/components/Headers";
 import TypeWriterComp from "@/components/TypeWriterComp";
+
 import BrianTesting from "@/components/BrianTesting";
+
+import SimpleImageSlider from "@/components/SimpleImageSlider";
+
 
 export default function Home() {
   return (
     <div>
       <Header />
       <TypeWriterComp />
-      <div className="grid grid-cols-2">
-        <div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quidem
-          assumenda pariatur incidunt distinctio facere, modi officia eveniet
-          voluptatem possimus eum, dolores nostrum iusto eius sit, illum quam
-          eligendi fugit.
+
+      <div className="grid grid-cols-2 border mt-10 justify-center items-center">
+        <div className="">
+          <SimpleImageSlider />
+
         </div>
         <ChatBot />
       </div>

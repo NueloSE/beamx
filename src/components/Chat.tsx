@@ -48,7 +48,7 @@ const ChatBot: React.FC = () => {
 
   return (
     <div
-      className={`flex ${roboto.className} flex-col h-screen bg-gray-800 text-white`}
+      className={`flex ${roboto.className} flex-col w-[650px] h-[550px] bg-gray-800 text-white`}
     >
       {/* Rest of your existing code remains the same */}
     </div>
