@@ -17,13 +17,14 @@ export default function Home() {
           <div className="">
             <SimpleImageSlider />
           </div>
-          <div className="border-2 flex items-center justify-center">
+
+          <div className=" flex items-center justify-center">
             <ChatBot />
           </div>
         </div>
       </div>
-<br />
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. In quasi soluta consequatur incidunt. Accusantium distinctio sequi voluptatibus odit quia? Pariatur inventore blanditiis repudiandae dignissimos exercitationem cum dolores placeat neque sint.
+      <br />
+      <br />
     </div>
   );
 }

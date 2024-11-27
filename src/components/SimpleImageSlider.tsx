@@ -19,19 +19,21 @@ export default function SimpleImageSlider() {
     autoplay: true,
   };
   return (
-    <Slider {...settings}>
-      <div>
-        <Image className="w-[650px] h-[550px]" src={slide1} alt="image" />
-      </div>
-      <div>
-        <Image className="w-[650px] h-[550px]" src={slide2} alt="image" />
-      </div>
-      <div>
-        <Image className="w-[650px] h-[550px]" src={slide3} alt="image" />
-      </div>
-      <div>
-        <Image className="w-[650px] h-[550px]" src={slide4} alt="image" />
-      </div>
-    </Slider>
+    
+      <Slider className="ml-[200px]" {...settings}>
+        <div>
+          <Image className="w-[650px] h-[550px]" src={slide1} alt="image" />
+        </div>
+        <div>
+          <Image className="w-[650px] h-[550px]" src={slide2} alt="image" />
+        </div>
+        <div>
+          <Image className="w-[650px] h-[550px]" src={slide3} alt="image" />
+        </div>
+        <div>
+          <Image className="w-[650px] h-[550px]" src={slide4} alt="image" />
+        </div>
+      </Slider>
+    
   );
 }
