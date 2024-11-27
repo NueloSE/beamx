@@ -33,11 +33,10 @@
     "react-dom": "18.0.0",
     "react-slick": "^0.30.2",
     "react-type-animation": "^3.2.0",
-
     "slick-carousel": "^1.8.1",
     "starknet": "6.11.0",
-
     "tailwind-merge": "^2.5.5",
+    "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss-animate": "^1.0.7",
     "unruggable-sdk": "^1.4.0"
   },

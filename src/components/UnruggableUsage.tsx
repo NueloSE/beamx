@@ -22,7 +22,7 @@ const createResult = async () => {
     name: "My Memecoin",
     symbol: "MMC",
     initialSupply: "1000000000",
-    owner: account?.address, // "address",
+    owner: account?.address,
     starknetAccount: account,
   });
 };
