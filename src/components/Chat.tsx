@@ -34,7 +34,7 @@ const ChatBot: React.FC = () => {
 
   return (
     <div
-      className={`flex ${roboto.className} flex-col h-screen bg-gray-800 text-white`}
+      className={`flex ${roboto.className} flex-col w-[650px] h-[550px] bg-gray-800 text-white`}
     >
       <div className="flex-grow overflow-y-auto p-4 space-y-2">
         {messages.map((message, index) => (
