@@ -1,14 +1,56 @@
 "use client";
 import logo from "../../public/logo.webp";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { Righteous, Inter, Pacifico } from "next/font/google";
 
 const righteous = Righteous({ weight: ["400"], subsets: ["latin"] });
 const inter = Inter({ weight: ["400"], subsets: ["latin"] });
 const pacifico = Pacifico({ weight: ["400"], subsets: ["latin"] });
 
+interface ChatMessage {
+  id: number;
+  sender: 'bot' | 'user';
+  content: string;
+}
+
 const ChatBot = () => {
+  const [prompt, setPrompt] = useState("");
+  const api_key = process.env.NEXT_PUBLIC_BRIAN_API_KEY;
+
+  const url = "https://api.brianknows.org/api/v0/agent/parameters-extraction";
+  const options = {
+    method: "POST",
+    headers: {
+      "X-Brian-Api-Key": api_key as string,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      prompt: prompt,
+      messages: [{ sender: "user", content: "" }],
+    }),
+  };
+
+  async function callBrian() {
+    if (!options) return;
+
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json();
+      console.log(data.result.completion[0]);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+
+
+
+  const submitPrompt = () => {
+    console.log("lorem ipsum", prompt);
+    callBrian();
+  };
+
   return (
     <div className="bg-white relative rounded shadow-lg w-[640px] grid grid-rows-[89px_auto_100px] h-[802px] overflow-hidden">
       <div className="w-full flex items-center justify-between px-5 h-[89px] bg-[#CDCDCD]">
@@ -26,6 +68,8 @@ const ChatBot = () => {
 
         <div className="font-bold text-2xl">...</div>
       </div>
+
+
       <div
         className={`mt-2 overflow-x-auto scrollbar-hide px-6 ${inter.className}`}
       >
@@ -72,17 +116,26 @@ const ChatBot = () => {
           </button>
         </div>
       </div>
+
+
       <form
+        onSubmit={(e) => e.preventDefault()}
         className={`bg-[#CDCDCD] ${inter.className} w-full  absolute bottom-0 p-2 `}
         action=""
       >
         <div className="p-1 flex items-center justify-center gap-2  ">
           <input
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
             className="border-none rounded w-[500px] px-4 py-2  focus:outline-none focus:border-none focus:no-underline"
             type="text"
             placeholder="Prompt Launch with name, symbol, and initial supply...."
           />
-          <button className="px-4 py-2 bg-red-200" type="submit">
+          <button
+            onClick={submitPrompt}
+            className="px-4 py-2 bg-blue-200 rounded-lg"
+            type="submit"
+          >
             send
           </button>
         </div>
@@ -96,6 +149,7 @@ const ChatBot = () => {
     </div>
   );
 };
+
 export const ActiveButton = () => {
   return (
     <svg

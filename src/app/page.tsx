@@ -14,9 +14,9 @@ export default function Home() {
       <TypeWriterComp />
       <div className="flex items-center justify-center w-full">
         <div className="grid grid-cols-2 border mt-10 justify-center items-center">
-          <div className="">
+          {/* <div className="">
             <SimpleImageSlider />
-          </div>
+          </div> */}
 
           <div className=" flex items-center justify-center">
             <ChatBot />
