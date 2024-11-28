@@ -17,7 +17,7 @@ export default function Header() {
   return (
     <header className="w-full bg-none z-30 px-4">
       <div className="mx-auto max-w-7xl flex items-center justify-between py-4 relative">
-        {/* Logo and Brand */}
+     
         <div className="flex items-center space-x-2">
           <Image
             src={logo}
@@ -33,7 +33,6 @@ export default function Header() {
           </h1>
         </div>
 
-        {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-4">
           <div className="bg-purple-600 rounded-xl text-white hover:bg-purple-700 transition-colors">
             <WalletBar />
@@ -41,7 +40,6 @@ export default function Header() {
           <ModeToggle />
         </div>
 
-        {/* Mobile Menu Button */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           className="md:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
@@ -49,7 +47,6 @@ export default function Header() {
           {isMenuOpen ? <X /> : <Menu className="h-6 w-6" />}
         </button>
 
-        {/* Mobile Menu Overlay */}
         {isMenuOpen && (
           <div className="absolute top-full right-0 mt-2 w-full max-w-sm bg-white dark:bg-gray-900 rounded-lg shadow-lg py-4 px-6 md:hidden">
             <div className="space-y-4">

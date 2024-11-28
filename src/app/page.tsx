@@ -16,9 +16,8 @@ export default function Home() {
 
         <div className="mt-8 sm:mt-12 mb-12">
           <div className="max-w-7xl mx-auto">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+            <div className=" rounded-lg shadow-lg overflow-hidden">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-               
                 <div className="w-full h-full min-h-[300px] flex items-center justify-center p-4">
                   <SimpleImageSlider />
                 </div>
