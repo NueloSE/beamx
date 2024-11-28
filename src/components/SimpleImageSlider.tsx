@@ -17,23 +17,54 @@ export default function SimpleImageSlider() {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
+    dots: true,
+    arrows: true,
+    adaptiveHeight: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          arrows: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          arrows: false,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          arrows: false,
+          dots: true,
+        },
+      },
+    ],
   };
+
   return (
-    
-      <Slider className="ml-[200px]" {...settings}>
-        <div>
-          <Image className="w-[650px] h-[550px]" src={slide1} alt="image" />
-        </div>
-        <div>
-          <Image className="w-[650px] h-[550px]" src={slide2} alt="image" />
-        </div>
-        <div>
-          <Image className="w-[650px] h-[550px]" src={slide3} alt="image" />
-        </div>
-        <div>
-          <Image className="w-[650px] h-[550px]" src={slide4} alt="image" />
-        </div>
-      </Slider>
-    
+    <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative">
+        <Slider {...settings}>
+          {[slide1, slide2, slide3, slide4].map((slide, index) => (
+            <div key={index} className="relative aspect-[4/3] w-full">
+              <div className="relative h-full w-full">
+                <Image
+                  src={slide}
+                  alt={`Slide ${index + 1}`}
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-lg"
+                  priority={index === 0}
+                />
+              </div>
+            </div>
+          ))}
+        </Slider>
+      </div>
+    </div>
   );
 }

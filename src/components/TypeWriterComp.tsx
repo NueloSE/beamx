@@ -9,7 +9,7 @@ const TypeWriterComp = () => {
 
   return (
     <div
-      className={`text-4xl ${righteous.className} my-16 flex justify-center items-center w-full mx-auto font-semibold`}
+      className={`text-4xl ${righteous.className} my-16 mx-4 flex justify-center items-center w-full sm:mx-auto font-semibold`}
     >
       <div>
         {baseText}{" "}

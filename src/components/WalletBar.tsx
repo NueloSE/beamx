@@ -16,7 +16,7 @@ const WalletBar: React.FC = () => {
         <>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="px-4 py-2 bg-greenish-500 hover:bg-greenish-300 text-white font-semibold rounded-lg transition-colors"
+            className="px-4 py-2 bg-greenish-500 hover:bg-greenish-300 text-white text-center font-semibold rounded-lg transition-colors"
           >
             Connect Wallet
           </button>
@@ -29,7 +29,7 @@ const WalletBar: React.FC = () => {
           </div>
           <button
             onClick={() => disconnect()}
-            className="px-4 py-2 bg-greenish-500 hover:bg-greenish-300 text-white font-semibold rounded-lg transition-colors"
+            className="px-4 py-2 bg-greenish-500 text-center hover:bg-greenish-300 text-white font-semibold rounded-lg transition-colors"
           >
             Disconnect
           </button>
