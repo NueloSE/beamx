@@ -1,54 +1,99 @@
 "use client";
 import logo from "../../public/logo.webp";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 import { Righteous, Inter, Pacifico } from "next/font/google";
+import { callBrianAPI } from "@/app/api/brian";
+
+import { useAccount } from "@starknet-react/core";
+import { createMemecoin, launchOnEkubo } from "unruggable-sdk";
+import { constants, ProviderInterface, RpcProvider } from "starknet";
+
+
 
 const righteous = Righteous({ weight: ["400"], subsets: ["latin"] });
 const inter = Inter({ weight: ["400"], subsets: ["latin"] });
 const pacifico = Pacifico({ weight: ["400"], subsets: ["latin"] });
 
-interface ChatMessage {
-  id: number;
-  sender: 'bot' | 'user';
-  content: string;
-}
+const INITIAL_MESSAGES: ChatMessage[] = [
+  { id: 0, sender: "bot", content: "Hey, What would you like to do today?" },
+];
+
+const messagesReducer = (state: ChatMessage[], action: any) => {
+  switch (action.type) {
+    case "ADD_MESSAGE":
+      return [...state, action.payload];
+    default:
+      return state;
+  }
+};
 
 const ChatBot = () => {
+  const [messages, dispatch] = useReducer(messagesReducer, INITIAL_MESSAGES);
   const [prompt, setPrompt] = useState("");
-  const api_key = process.env.NEXT_PUBLIC_BRIAN_API_KEY;
+  const [showButtons, setShowButtons] = useState(false);
 
-  const url = "https://api.brianknows.org/api/v0/agent/parameters-extraction";
-  const options = {
-    method: "POST",
-    headers: {
-      "X-Brian-Api-Key": api_key as string,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      prompt: prompt,
-      messages: [{ sender: "user", content: "" }],
-    }),
+  const handleProceed = () => {
+    dispatch({
+      type: "ADD_MESSAGE",
+      payload: {
+        id: messages.length,
+        sender: "bot",
+        content: "Proceeding with deployment. Please wait...",
+      },
+    });
+    
+    setShowButtons(false); // Hide buttons
   };
 
-  async function callBrian() {
-    if (!options) return;
-
-    try {
-      const response = await fetch(url, options);
-      const data = await response.json();
-      console.log(data.result.completion[0]);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-
-
+  const handleCancel = () => {
+    dispatch({
+      type: "ADD_MESSAGE",
+      payload: {
+        id: messages.length,
+        sender: "bot",
+        content: "Deployment cancelled. Let us know if you need anything else.",
+      },
+    });
+    setShowButtons(false); // Hide buttons
+  };
 
   const submitPrompt = () => {
+    // setShowButtons(false);
     console.log("lorem ipsum", prompt);
-    callBrian();
+    if (!prompt.trim()) return;
+
+    dispatch({
+      type: "ADD_MESSAGE",
+      payload: { id: messages.length, sender: "user", content: prompt },
+    });
+
+    callBrianAPI(prompt)
+      .then((res: any) => {
+        if (!res) {
+          console.error("Failed to fetch response");
+          return;
+        }
+
+        const { name, symbol, supply, owner } = res.result.completion[0];
+        const brianPrompt = `You are preparing to deploy a memecoin on the Starknet blockchain named <b>${name}</b>, with the symbol <b>${symbol}</b> and a supply of <b>${supply}</b> tokens, owned by wallet address <b>${owner}</b>. It will be launched on the Ekubo protocol, and its design ensures that it is unruggable for investor security.`;
+
+        dispatch({
+          type: "ADD_MESSAGE",
+          payload: {
+            id: messages.length + 1,
+            sender: "bot",
+            content: brianPrompt,
+          },
+        });
+
+        setShowButtons(true);
+      })
+      .catch((err) => {
+        console.log("the error is ", err);
+      });
+
+    setPrompt("");
   };
 
   return (
@@ -69,54 +114,40 @@ const ChatBot = () => {
         <div className="font-bold text-2xl">...</div>
       </div>
 
-
       <div
         className={`mt-2 overflow-x-auto scrollbar-hide px-6 ${inter.className}`}
       >
-        <div className="grid mb-2 grid-cols-[30px_auto] items-start gap-2">
-          <div className="rounded-full mt-1 border-[2px] border-blue-300 overflow-hidden self-start">
-            <Image src={logo} alt="beamx logo" width="28" height="28" />
+        {/* chat bot div */}
+        {messages.map((message) => (
+          <div className={`${inter.className}`} key={message.id}>
+            {message.sender == "bot" ? (
+              <div className="grid mb-2 grid-cols-[30px_auto_auto] items-start gap-2">
+                <div className="rounded-full mt-1 border-[2px] border-blue-300 overflow-hidden self-start">
+                  <Image src={logo} alt="beamx logo" width="28" height="28" />
+                </div>
+                <div className="border px-4 py-2 bg-blue-200 rounded-3xl w-fit max-w-[80%]">
+                  <div dangerouslySetInnerHTML={{ __html: message.content }} />
+                </div>
+              </div>
+            ) : (
+              <div className="border mb-2 bg-blue-300 justify-end flex items-end ml-auto px-4 py-2 rounded-3xl w-fit max-w-[80%]">
+                {message.content}
+              </div>
+            )}
           </div>
-          <div className="border px-4 py-2 bg-blue-200 rounded-3xl w-fit max-w-[80%]">
-            Hey, What would you like to do today ?
-          </div>
-        </div>
+        ))}
 
-        <div
-          className="border mb-2  bg-blue-300 justify-end flex items-end ml-auto *:
-        px-4 py-2  rounded-3xl w-fit max-w-[80%]
-        "
-        >
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod magni
-          commodi nesciunt deleniti tempore. Nemo nisi quaerat optio quibusdam
-          molestiae repudiandae error iusto sapiente autem repellendus earum
-          alias distinctio ipsa magnam esse eos est aliquid, assumenda hic
-          doloribus vero quia?
-        </div>
-
-        <div className="grid grid-cols-[30px_auto] items-start gap-2">
-          <div className="rounded-full mt-1 border-[2px] border-blue-300 overflow-hidden self-start">
-            <Image src={logo} alt="beamx logo" width="28" height="28" />
+        {showButtons && (
+          <div className="ml-[40px] mt-3 p-2 grid grid-cols-2 w-[75%] gap-2">
+            <button onClick={() => handleProceed()} className="bg-blue-200 py-3 rounded-3xl hover:shadow-lg">
+              Proceed
+            </button>
+            <button onClick={handleCancel} className="bg-blue-200 py-3 rounded-3xl hover:shadow-lg">
+              Cancel
+            </button>
           </div>
-          <div className="border px-4 py-2 bg-blue-200 rounded-3xl w-fit max-w-[80%]">
-            You are preparing to deploy a memecoin on the Starknet blockchain
-            named <b>Shola</b> , with the symbol <b>SH</b> and an initial supply
-            of <b>1,000 </b>
-            tokens, owned by wallet address <b>0x0000</b>. It will be launched
-            on the Ekubo protocol, and its design ensures that it is unruggable
-            for investor security.
-          </div>
-        </div>
-        <div className="ml-[40px] mt-3 p-2 grid grid-cols-2 w-[75%] gap-2">
-          <button className="bg-blue-200 py-3 rounded-3xl hover:shadow-lg">
-            Proceed
-          </button>
-          <button className="bg-blue-200 py-3 rounded-3xl hover:shadow-lg">
-            Cancel
-          </button>
-        </div>
+        )}
       </div>
-
 
       <form
         onSubmit={(e) => e.preventDefault()}

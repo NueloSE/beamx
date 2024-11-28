@@ -3,7 +3,7 @@ import ChatBot from "../components/Chat";
 import Header from "@/components/Headers";
 import TypeWriterComp from "@/components/TypeWriterComp";
 
-import BrianTesting from "@/components/BrianTesting";
+
 
 import SimpleImageSlider from "@/components/SimpleImageSlider";
 
