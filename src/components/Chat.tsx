@@ -9,7 +9,17 @@ import { useAccount } from "@starknet-react/core";
 import { createMemecoin, launchOnEkubo } from "unruggable-sdk";
 import { constants, ProviderInterface, RpcProvider } from "starknet";
 
+// const { account } = useAccount();
+const myProvider = new RpcProvider({ nodeUrl: constants.NetworkName.SN_MAIN });
 
+const config: Config = {
+  starknetProvider: myProvider,
+  starknetChainId: constants.StarknetChainId.SN_MAIN,
+};
+interface Config {
+  starknetChainId: constants.StarknetChainId;
+  starknetProvider: ProviderInterface;
+}
 
 const righteous = Righteous({ weight: ["400"], subsets: ["latin"] });
 const inter = Inter({ weight: ["400"], subsets: ["latin"] });

@@ -6,6 +6,7 @@ import TypeWriterComp from "@/components/TypeWriterComp";
 
 
 import SimpleImageSlider from "@/components/SimpleImageSlider";
+import UnruggableUsage from "@/components/UnruggableUsage";
 
 export default function Home() {
   return (
@@ -18,9 +19,10 @@ export default function Home() {
             <SimpleImageSlider />
           </div> */}
 
-          <div className=" flex items-center justify-center">
+          {/* <div className=" flex items-center justify-center">
             <ChatBot />
-          </div>
+          </div> */}
+          <UnruggableUsage />
         </div>
       </div>
       <br />
