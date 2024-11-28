@@ -11,6 +11,7 @@
   "dependencies": {
     "@cartridge/connector": "0.3.46",
     "@headlessui/react": "2.2.0",
+    "@next/env": "^15.0.3",
     "@nextui-org/react": "2.4.8",
     "@radix-ui/react-collection": "^1.1.0",
     "@radix-ui/react-context": "^1.1.1",
@@ -35,7 +36,9 @@
     "slick-carousel": "^1.8.1",
     "starknet": "6.11.0",
     "tailwind-merge": "^2.5.5",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwind-scrollbar-hide": "^1.1.7",
+    "tailwindcss-animate": "^1.0.7",
+    "unruggable-sdk": "^1.4.0"
   },
   "devDependencies": {
     "@types/node": "^20",
