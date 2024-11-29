@@ -74,7 +74,7 @@ const UnruggableUsage = () => {
       }
 
       setResult(launchRes);
-    } catch (err: any) {
+    } catch (err: any | undefined) {
       setError(err.message || "An error occurred during the process.");
     } finally {
       setLoading(false);
