@@ -14,6 +14,8 @@ interface WalletModalProps {
 const walletIcons = {
   argentX: "/assets/wallets/argent.svg",
   braavos: "/assets/wallets/braavos.svg",
+  modal1: "/modal1.jpg",
+  modal2: "/modal2.png",
 };
 
 export function WalletModal({ isOpen, setIsOpen }: WalletModalProps) {
@@ -126,13 +128,14 @@ export function WalletModal({ isOpen, setIsOpen }: WalletModalProps) {
                       What is a wallet?
                     </h4>
                     <div className="space-y-4">
-                      <div className="flex gap-4">
-                        <div className="relative w-10 h-10">
+                      <div className="flex justify-center items-center gap-4">
+                        <div className="relative">
                           <Image
-                            src="/assets/wallets/wallet-info.svg"
+                            src={walletIcons.modal1}
                             alt="Digital Assets"
-                            width={40}
+                            width={50}
                             height={40}
+                            className="rounded-md border border-white"
                           />
                         </div>
                         <div className="flex-1">
@@ -146,13 +149,14 @@ export function WalletModal({ isOpen, setIsOpen }: WalletModalProps) {
                         </div>
                       </div>
 
-                      <div className="flex gap-4">
-                        <div className="relative w-10 h-10">
+                      <div className="flex justify-center items-center gap-4">
+                        <div className="relative">
                           <Image
-                            src="/assets/wallets/signin-info.svg"
+                            src={walletIcons.modal2}
                             alt="Sign In"
-                            width={40}
+                            width={50}
                             height={40}
+                            className="rounded-md border border-white"
                           />
                         </div>
                         <div className="flex-1">

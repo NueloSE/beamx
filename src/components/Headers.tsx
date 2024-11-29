@@ -1,37 +1,64 @@
-// import { Button } from "@/components/ui/button";
+"use client";
+
 import { ModeToggle } from "./toggle";
 import WalletBar from "./WalletBar";
 import Image from "next/image";
-import logo from "../../public/logo.webp";
+import { Menu } from "lucide-react";
+import { X } from "lucide-react";
 import { Righteous } from "next/font/google";
+import { useState } from "react";
+import logo from "../../public/logo.webp";
 
 const righteous = Righteous({ weight: ["400"], subsets: ["latin"] });
 
 export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
-    <header className="w-full bg-none z-30">
-      <div className="mx-auto w-[70rem] m-5 flex items-center justify-between mt-4 py-4 shadow-inner px-8 rounded-full">
-        <div className=" flex justify-center items-center">
+    <header className="w-full bg-none z-30 px-4">
+      <div className="mx-auto max-w-7xl flex items-center justify-between py-4 relative">
+     
+        <div className="flex items-center space-x-2">
           <Image
             src={logo}
-            alt="logo"
+            alt="logo icon"
             width={40}
             height={40}
-            className="mr-2 rounded-full"
+            className="rounded-full"
           />
           <h1
-            className={`text-3xl ${righteous.className} uppercase text-foreground`}
+            className={`text-xl sm:text-2xl md:text-3xl ${righteous.className} uppercase text-foreground`}
           >
             BeamX
           </h1>
         </div>
 
-        <div className="flex items-center justify-center gap-3">
-          <div className="bg-purple-600 rounded-xl text-white hover:bg-purple-700">
+        <div className="hidden md:flex items-center space-x-4">
+          <div className="bg-purple-600 rounded-xl text-white hover:bg-purple-700 transition-colors">
             <WalletBar />
           </div>
           <ModeToggle />
         </div>
+
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="md:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+        >
+          {isMenuOpen ? <X /> : <Menu className="h-6 w-6" />}
+        </button>
+
+        {isMenuOpen && (
+          <div className="absolute top-full right-0 mt-2 w-full max-w-sm bg-white dark:bg-gray-900 rounded-lg shadow-lg py-4 px-6 md:hidden">
+            <div className="space-y-4">
+              <div className="bg-purple-600 rounded-xl text-white hover:bg-purple-700 transition-colors">
+                <WalletBar />
+              </div>
+              <div className="flex justify-end">
+                <ModeToggle />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );
