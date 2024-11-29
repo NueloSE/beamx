@@ -75,8 +75,8 @@ const ChatBot = () => {
         }
         // task: change the icon on the document icon place, metadat and all
         // repsonsiveness of the chat box
-        // display a loading animation while the data is fetching
-        const { name, symbol, supply, owner, action } = res.result.completion[0]; // default: Symbol should be the first two letters of the name, default supply should  be 10000 and default 
+        // display a loading animation while the data is fetching // action
+        const { name, symbol, supply, owner } = res.result.completion[0]; // default: Symbol should be the first two letters of the name, default supply should  be 10000 and default 
         // check if action is 'deployToken' 
         // if action is deploty token then check if name is not empty 
         // if name is empty dont add the message to the dispatch and dont show the buttons and make the user enter again

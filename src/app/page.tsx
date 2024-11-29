@@ -3,7 +3,7 @@ import ChatBot from "../components/Chat";
 import Header from "@/components/Headers";
 import TypeWriterComp from "@/components/TypeWriterComp";
 import SimpleImageSlider from "@/components/SimpleImageSlider";
-import UnruggableUsage from "@/components/UnruggableUsage";
+
 
 export default function Home() {
   return (
