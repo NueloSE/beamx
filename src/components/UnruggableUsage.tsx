@@ -3,6 +3,7 @@ import { useAccount } from "@starknet-react/core";
 import {
   createMemecoin,
   launchOnStandardAMM,
+  launchOnEkubo,
   LaunchParameters,
 } from "unruggable-sdk";
 import {
@@ -23,6 +24,7 @@ interface Config {
   starknetChainId: constants.StarknetChainId;
   starknetProvider: ProviderInterface;
 }
+
 interface TeamAllocation {
   address: string;
   amount: number;
@@ -36,9 +38,8 @@ interface UnruggableUsageProps {
   holdLimit: string;
   liquidityLockPeriod: number;
   antiBotPeriodInSecs: number;
-  fees: string; // Added fees property
+  fees: string;
   teamAllocations: TeamAllocation[];
-
 }
 
 const UnruggableUsage: React.FC<UnruggableUsageProps> = ({
@@ -49,14 +50,14 @@ const UnruggableUsage: React.FC<UnruggableUsageProps> = ({
   holdLimit,
   liquidityLockPeriod,
   antiBotPeriodInSecs,
-  fees, // Added fees parameter
+  fees,
   teamAllocations,
-
 }) => {
   const { account } = useAccount();
   const [loading, setLoading] = useState({
     create: false,
-    launch: false,
+    launchStandardAMM: false,
+    launchEkubo: false,
   });
   const [error, setError] = useState<string | null>(null);
   const [memecoinAddress, setMemecoinAddress] = useState<string | null>(null);
@@ -109,34 +110,80 @@ const UnruggableUsage: React.FC<UnruggableUsageProps> = ({
       return;
     }
 
-    setLoading((prev) => ({ ...prev, launch: true }));
+    setLoading((prev) => ({ ...prev, launchStandardAMM: true }));
     setError(null);
 
     try {
+      // Launch the memecoin on Standard AMM
       const launchRes = await launchOnStandardAMM(config, {
         memecoinAddress: memecoinAddress,
         currencyAddress:
-          "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7", 
+          "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7", // USDC/ETH address
         startingMarketCap,
         holdLimit,
         antiBotPeriodInSecs,
         liquidityLockPeriod,
-        fees, 
-        starknetAccount: account,
+        fees,
         teamAllocations,
+        starknetAccount: account,
       });
 
       if (!launchRes) {
-        setError("Failed to launch memecoin.");
-        setLoading((prev) => ({ ...prev, launch: false }));
+        setError("Failed to launch memecoin on Standard AMM.");
+        setLoading((prev) => ({ ...prev, launchStandardAMM: false }));
         return;
       }
 
       setResult(launchRes);
     } catch (err: any | undefined) {
-      setError(err.message || "An error occurred during memecoin launch.");
+      setError(err.message || "An error occurred during Standard AMM launch.");
     } finally {
-      setLoading((prev) => ({ ...prev, launch: false }));
+      setLoading((prev) => ({ ...prev, launchStandardAMM: false }));
+    }
+  };
+
+  const launchOnEkuboHandler = async () => {
+    if (!account) {
+      setError("Account is not connected.");
+      return;
+    }
+
+    if (!memecoinAddress) {
+      setError("Please create a memecoin first.");
+      return;
+    }
+
+    setLoading((prev) => ({ ...prev, launchEkubo: true }));
+    setError(null);
+
+    try {
+      // Launch the memecoin on Ekubo
+      const launchRes = await launchOnEkubo(config, {
+        memecoinAddress: memecoinAddress,
+        currencyAddress:
+          "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7", // USDC/ETH address
+        startingMarketCap,
+        teamAllocations: teamAllocations.map((allocation) => ({
+          address: allocation.address,
+          amount: allocation.amount.toString(),
+        })),
+        fees,
+        holdLimit,
+        antiBotPeriodInSecs,
+        starknetAccount: account,
+      });
+
+      if (!launchRes) {
+        setError("Failed to launch memecoin on Ekubo.");
+        setLoading((prev) => ({ ...prev, launchEkubo: false }));
+        return;
+      }
+
+      setResult(launchRes);
+    } catch (err: any | undefined) {
+      setError(err.message || "An error occurred during Ekubo launch.");
+    } finally {
+      setLoading((prev) => ({ ...prev, launchEkubo: false }));
     }
   };
 
@@ -153,13 +200,25 @@ const UnruggableUsage: React.FC<UnruggableUsageProps> = ({
 
         <button
           onClick={launchOnStandardAMMHandler}
-          disabled={!memecoinAddress || loading.launch}
+          disabled={!memecoinAddress || loading.launchStandardAMM}
           className="w-full bg-green-500 text-white py-2 rounded disabled:opacity-50"
         >
-          {loading.launch
+          {loading.launchStandardAMM
             ? "Launching on Standard AMM..."
             : memecoinAddress
             ? "Launch on Standard AMM"
+            : "Create Memecoin First"}
+        </button>
+
+        <button
+          onClick={launchOnEkuboHandler}
+          disabled={!memecoinAddress || loading.launchEkubo}
+          className="w-full bg-purple-500 py-2 rounded disabled:opacity-50"
+        >
+          {loading.launchEkubo
+            ? "Launching on Ekubo..."
+            : memecoinAddress
+            ? "Launch on Ekubo"
             : "Create Memecoin First"}
         </button>
 

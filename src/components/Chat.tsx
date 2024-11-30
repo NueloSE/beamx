@@ -4,7 +4,8 @@ import Image from "next/image";
 import React, { useState, useReducer, useEffect } from "react";
 import { Righteous, Inter, Pacifico } from "next/font/google";
 import { callBrianAPI } from "@/app/api/brian";
-import UnruggableUsage from "./UnruggableUsage";
+
+import Popup from "./popup";
 interface ChatMessage {
   id: number;
   sender: "bot" | "user" | "proceedDeploy";
@@ -44,18 +45,19 @@ const ChatBot = () => {
     owner: "",
   });
 
-  const handleProceed = () => {
-    dispatch({
-      type: "ADD_MESSAGE",
-      payload: {
-        id: messages.length,
-        sender: "bot",
-        content: "Proceeding with deployment. Please wait...",
-      },
-    });
+  // const handleProceed = () => {
+  //   <Popup />;
+  //   dispatch({
+  //     type: "ADD_MESSAGE",
+  //     payload: {
+  //       id: messages.length,
+  //       sender: "bot",
+  //       content: "Proceeding with deployment. Please wait...",
+  //     },
+  //   });
 
-    setShowButtons(false); // Hide buttons
-  };
+  //   setShowButtons(false); // Hide buttons
+  // };
 
   const handleCancel = () => {
     dispatch({
@@ -163,18 +165,24 @@ const ChatBot = () => {
 
         {showButtons && (
           <div className="ml-[40px] mt-3 p-2 grid grid-cols-2 w-[75%] gap-2">
-            <button
+            {/* <button
               onClick={() => handleProceed()}
               className="bg-blue-100 dark:bg-blue-500 text-gray-800 dark:text-white py-3 rounded-3xl hover:shadow-lg transition-all"
             >
               Proceed
-            </button>
-            {/* <button
+            </button> */}
+            <div
+              className="bg-blue-100 text-center items-center justify-center dark:bg-blue-500 text-gray-800 dark:text-white py-3 rounded-3xl hover:shadow-lg transition-all"
+            >
+              <Popup name={name} symbol={symbol} initialSupply={supply} />
+            </div>
+
+            <button
               onClick={handleCancel}
               className="bg-blue-100 dark:bg-blue-500 text-gray-800 dark:text-white py-3 rounded-3xl hover:shadow-lg transition-all"
             >
               Cancel
-            </button> */}
+            </button>
             {/* <UnruggableUsage
               name={name}
               symbol={supply}
@@ -183,27 +191,6 @@ const ChatBot = () => {
               fees="3.5"
               holdLimit="2.5"
             /> */}
-
-            <UnruggableUsage
-              name="MyMemecoin"
-              symbol="MEME"
-              initialSupply="1000000"
-              startingMarketCap="100000"
-              holdLimit="1000"
-              liquidityLockPeriod={30 * 24 * 60 * 60} // 30 days in seconds
-              antiBotPeriodInSecs={300} // 5 minutes
-              fees="0.1"
-              teamAllocations={[
-                {
-                  address: "0x123...", // Wallet address for team allocation
-                  amount: 10000, // Number of tokens allocated
-                },
-                {
-                  address: "0x456...", // Another team wallet
-                  amount: 5000, // Another allocation
-                },
-              ]}
-            />
           </div>
         )}
       </div>
