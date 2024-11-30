@@ -1,8 +1,15 @@
-"use client";
 import React, { useState } from "react";
 import { useAccount } from "@starknet-react/core";
-import { createMemecoin, launchOnEkubo } from "unruggable-sdk";
-import { constants, ProviderInterface, RpcProvider } from "starknet";
+import {
+  createMemecoin,
+  launchOnStandardAMM,
+  launchOnEkubo,
+} from "unruggable-sdk";
+import {
+  constants,
+  ProviderInterface,
+  RpcProvider,
+} from "starknet";
 
 const myProvider = new RpcProvider({ nodeUrl: constants.NetworkName.SN_MAIN });
 
@@ -10,32 +17,59 @@ const config: Config = {
   starknetProvider: myProvider,
   starknetChainId: constants.StarknetChainId.SN_MAIN,
 };
+
 interface Config {
   starknetChainId: constants.StarknetChainId;
   starknetProvider: ProviderInterface;
 }
 
-const UnruggableUsage = () => {
-  const { account } = useAccount(); // Get account from StarkNet React
-  const [loading, setLoading] = useState(false);
+interface TeamAllocation {
+  address: string;
+  amount: number;
+}
+
+interface UnruggableUsageProps {
+  name: string;
+  symbol: string;
+  initialSupply: string;
+  startingMarketCap: string;
+  holdLimit: string;
+  liquidityLockPeriod: number;
+  antiBotPeriodInSecs: number;
+  fees: string;
+  teamAllocations: TeamAllocation[];
+}
+
+const UnruggableUsage: React.FC<UnruggableUsageProps> = ({
+  name,
+  symbol,
+  initialSupply,
+  startingMarketCap,
+  holdLimit,
+  liquidityLockPeriod,
+  antiBotPeriodInSecs,
+  fees,
+  teamAllocations,
+}) => {
+  const { account } = useAccount();
+  const [loading, setLoading] = useState({
+    create: false,
+    launchStandardAMM: false,
+    launchEkubo: false,
+  });
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<any>(null);
+  const [memecoinAddress, setMemecoinAddress] = useState<string | null>(null);
+  const [result, setResult] = useState<{ transactionHash: string } | null>(
+    null
+  );
 
-  // State for dynamic values
-  const [name, setName] = useState("My Memecoin");
-  const [symbol, setSymbol] = useState("MMC");
-  const [initialSupply, setInitialSupply] = useState("1000000000");
-  const [startingMarketCap, setStartingMarketCap] = useState("1000000");
-  const [fees, setFees] = useState("3.5");
-  const [holdLimit, setHoldLimit] = useState("2.5");
-
-  const createAndLaunch = async () => {
+  const createMemecoinHandler = async () => {
     if (!account) {
       setError("Account is not connected.");
       return;
     }
 
-    setLoading(true);
+    setLoading((prev) => ({ ...prev, create: true }));
     setError(null);
 
     try {
@@ -50,119 +84,151 @@ const UnruggableUsage = () => {
 
       if (!createRes) {
         setError("Failed to create memecoin.");
-        setLoading(false);
+        setLoading((prev) => ({ ...prev, create: false }));
         return;
       }
 
-      // Launch the memecoin
-      const launchRes = await launchOnEkubo(config, {
-        memecoinAddress: createRes.tokenAddress,
+      // Store the memecoin address for launching
+      setMemecoinAddress(createRes.tokenAddress);
+    } catch (err: any | undefined) {
+      setError(err.message || "An error occurred during memecoin creation.");
+    } finally {
+      setLoading((prev) => ({ ...prev, create: false }));
+    }
+  };
+
+  const launchOnStandardAMMHandler = async () => {
+    if (!account) {
+      setError("Account is not connected.");
+      return;
+    }
+
+    if (!memecoinAddress) {
+      setError("Please create a memecoin first.");
+      return;
+    }
+
+    setLoading((prev) => ({ ...prev, launchStandardAMM: true }));
+    setError(null);
+
+    try {
+      // Launch the memecoin on Standard AMM
+      const launchRes = await launchOnStandardAMM(config, {
+        memecoinAddress: memecoinAddress,
         currencyAddress:
-          "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7",
+          "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7", // USDC/ETH address
         startingMarketCap,
-        teamAllocations: [{ address: "", amount: 0 }],
-        fees,
         holdLimit,
-        antiBotPeriodInSecs: 300,
+        antiBotPeriodInSecs,
+        liquidityLockPeriod,
+        fees,
+        teamAllocations,
         starknetAccount: account,
       });
 
       if (!launchRes) {
-        setError("Failed to launch memecoin.");
-        setLoading(false);
+        setError("Failed to launch memecoin on Standard AMM.");
+        setLoading((prev) => ({ ...prev, launchStandardAMM: false }));
         return;
       }
 
       setResult(launchRes);
     } catch (err: any | undefined) {
-      setError(err.message || "An error occurred during the process.");
+      setError(err.message || "An error occurred during Standard AMM launch.");
     } finally {
-      setLoading(false);
+      setLoading((prev) => ({ ...prev, launchStandardAMM: false }));
+    }
+  };
+
+  const launchOnEkuboHandler = async () => {
+    if (!account) {
+      setError("Account is not connected.");
+      return;
+    }
+
+    if (!memecoinAddress) {
+      setError("Please create a memecoin first.");
+      return;
+    }
+
+    setLoading((prev) => ({ ...prev, launchEkubo: true }));
+    setError(null);
+
+    try {
+      // Launch the memecoin on Ekubo
+      const launchRes = await launchOnEkubo(config, {
+        memecoinAddress: memecoinAddress,
+        currencyAddress:
+          "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7", // USDC/ETH address
+        startingMarketCap,
+        teamAllocations: teamAllocations.map((allocation) => ({
+          address: allocation.address,
+          amount: allocation.amount.toString(),
+        })),
+        fees,
+        holdLimit,
+        antiBotPeriodInSecs,
+        starknetAccount: account,
+      });
+
+      if (!launchRes) {
+        setError("Failed to launch memecoin on Ekubo.");
+        setLoading((prev) => ({ ...prev, launchEkubo: false }));
+        return;
+      }
+
+      setResult(launchRes);
+    } catch (err: any | undefined) {
+      setError(err.message || "An error occurred during Ekubo launch.");
+    } finally {
+      setLoading((prev) => ({ ...prev, launchEkubo: false }));
     }
   };
 
   return (
     <div>
-      <h2>Create and Launch Memecoin</h2>
+      <div className="space-y-4">
+        <button
+          onClick={createMemecoinHandler}
+          disabled={loading.create}
+          className="w-full bg-blue-500 text-white py-2 rounded disabled:opacity-50"
+        >
+          {loading.create ? "Creating Memecoin..." : "Create Memecoin"}
+        </button>
 
-      {/* Input fields for dynamic values */}
-      <div>
-        <label>
-          Name:
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter coin name"
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Symbol:
-          <input
-            type="text"
-            value={symbol}
-            onChange={(e) => setSymbol(e.target.value)}
-            placeholder="Enter coin symbol"
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Initial Supply:
-          <input
-            type="text"
-            value={initialSupply}
-            onChange={(e) => setInitialSupply(e.target.value)}
-            placeholder="Enter initial supply"
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Starting Market Cap:
-          <input
-            type="text"
-            value={startingMarketCap}
-            onChange={(e) => setStartingMarketCap(e.target.value)}
-            placeholder="Enter market cap"
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Fees:
-          <input
-            type="text"
-            value={fees}
-            onChange={(e) => setFees(e.target.value)}
-            placeholder="Enter fees"
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Hold Limit:
-          <input
-            type="text"
-            value={holdLimit}
-            onChange={(e) => setHoldLimit(e.target.value)}
-            placeholder="Enter hold limit"
-          />
-        </label>
-      </div>
+        <button
+          onClick={launchOnStandardAMMHandler}
+          disabled={!memecoinAddress || loading.launchStandardAMM}
+          className="w-full bg-green-500 text-white py-2 rounded disabled:opacity-50"
+        >
+          {loading.launchStandardAMM
+            ? "Launching on Standard AMM..."
+            : memecoinAddress
+            ? "Launch on Standard AMM"
+            : "Create Memecoin First"}
+        </button>
 
-      {/* Button to trigger the process */}
-      <button onClick={createAndLaunch} disabled={loading}>
-        {loading ? "Processing..." : "Create and Launch Memecoin"}
-      </button>
+        <button
+          onClick={launchOnEkuboHandler}
+          disabled={!memecoinAddress || loading.launchEkubo}
+          className="w-full bg-purple-500 py-2 rounded disabled:opacity-50"
+        >
+          {loading.launchEkubo
+            ? "Launching on Ekubo..."
+            : memecoinAddress
+            ? "Launch on Ekubo"
+            : "Create Memecoin First"}
+        </button>
 
-      {/* Error or Success Message */}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {result && (
-        <p>Memecoin launched successfully: {JSON.stringify(result)}</p>
-      )}
+        {error && <p className="text-red-500 mt-2">{error}</p>}
+
+        {result && (
+          <p className="text-green-500 mt-2">
+            Memecoin launched successfully. Transaction Hash:{" "}
+            {result.transactionHash}
+          </p>
+        )}
+      </div>
     </div>
   );
 };
