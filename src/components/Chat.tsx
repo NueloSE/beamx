@@ -4,6 +4,8 @@ import Image from "next/image";
 import React, { useState, useReducer } from "react";
 import { Righteous, Inter, Pacifico } from "next/font/google";
 import { callBrianAPI } from "@/app/api/brian";
+
+import Popup from "./popup";
 interface ChatMessage {
   id: number;
   sender: "bot" | "user" | "proceedDeploy";
@@ -30,20 +32,25 @@ const messagesReducer = (state: ChatMessage[], action: any) => {
 const ChatBot = () => {
   const [messages, dispatch] = useReducer(messagesReducer, INITIAL_MESSAGES);
   const [prompt, setPrompt] = useState("");
+  const [name, setName] = useState("");
+  const [symbol, setSymbol] = useState("");
+  const [supply, setSupply] = useState("");
+  // const [owner, setOwner] = useState("");
   const [showButtons, setShowButtons] = useState(false);
 
-  const handleProceed = () => {
-    dispatch({
-      type: "ADD_MESSAGE",
-      payload: {
-        id: messages.length,
-        sender: "bot",
-        content: "Proceeding with deployment. Please wait...",
-      },
-    });
+  // const handleProceed = () => {
+  //   <Popup />;
+  //   dispatch({
+  //     type: "ADD_MESSAGE",
+  //     payload: {
+  //       id: messages.length,
+  //       sender: "bot",
+  //       content: "Proceeding with deployment. Please wait...",
+  //     },
+  //   });
 
-    setShowButtons(false); // Hide buttons
-  };
+  //   setShowButtons(false); // Hide buttons
+  // };
 
   const handleCancel = () => {
     dispatch({
@@ -54,12 +61,10 @@ const ChatBot = () => {
         content: "Deployment cancelled. Let us know if you need anything else.",
       },
     });
-    setShowButtons(false); // Hide buttons
+    setShowButtons(false);
   };
 
   const submitPrompt = () => {
-    // setShowButtons(false);
-    console.log("lorem ipsum", prompt);
     if (!prompt.trim()) return;
 
     dispatch({
@@ -76,13 +81,18 @@ const ChatBot = () => {
         // task: change the icon on the document icon place, metadat and all
         // repsonsiveness of the chat box
         // display a loading animation while the data is fetching // action
-        const { name, symbol, supply, owner } = res.result.completion[0]; // default: Symbol should be the first two letters of the name, default supply should  be 10000 and default 
-        // check if action is 'deployToken' 
-        // if action is deploty token then check if name is not empty 
-        // if name is empty dont add the message to the dispatch and dont show the buttons and make the user enter again
-        // if symbol or supply or owner is null then use the defaults specified above 
-        const brianPrompt = `You are preparing to deploy a memecoin on the Starknet blockchain named <b>${name}</b>, with the symbol <b>${symbol}</b> and a supply of <b>${supply}</b> tokens, owned by wallet address <b>${owner}</b>. It will be launched on the Ekubo protocol, and its design ensures that it is unruggable for investor security.`;
+        const { name, symbol, supply, owner } = res.result.completion[0]; // default: Symbol should be the first two letters of the name, default supply should  be 10000 and default
 
+        setName(name);
+        setSymbol(symbol);
+        setSupply(supply);
+        // setOwner(owner);
+        // check if action is 'deployToken'
+        // if action is deploty token then check if name is not empty
+        // if name is empty dont add the message to the dispatch and dont show the buttons and make the user enter again
+        // if symbol or supply or owner is null then use the defaults specified above
+        const brianPrompt = `You are preparing to deploy a memecoin on the Starknet blockchain named <b>${name}</b>, with the symbol <b>${symbol}</b> and a supply of <b>${supply}</b> tokens, owned by wallet address <b>${owner}</b>. It will be launched on the Ekubo protocol, and its design ensures that it is unruggable for investor security.`;
+        console.log(brianPrompt, "lets have it ");
         dispatch({
           type: "ADD_MESSAGE",
           payload: {
@@ -148,18 +158,32 @@ const ChatBot = () => {
 
         {showButtons && (
           <div className="ml-[40px] mt-3 p-2 grid grid-cols-2 w-[75%] gap-2">
-            <button
+            {/* <button
               onClick={() => handleProceed()}
               className="bg-blue-100 dark:bg-blue-500 text-gray-800 dark:text-white py-3 rounded-3xl hover:shadow-lg transition-all"
             >
               Proceed
-            </button>
+            </button> */}
+            <div
+              className="bg-blue-100 text-center items-center justify-center dark:bg-blue-500 text-gray-800 dark:text-white py-3 rounded-3xl hover:shadow-lg transition-all"
+            >
+              <Popup name={name} symbol={symbol} initialSupply={supply} />
+            </div>
+
             <button
               onClick={handleCancel}
               className="bg-blue-100 dark:bg-blue-500 text-gray-800 dark:text-white py-3 rounded-3xl hover:shadow-lg transition-all"
             >
               Cancel
             </button>
+            {/* <UnruggableUsage
+              name={name}
+              symbol={supply}
+              initialSupply={supply}
+              startingMarketCap="1000000"
+              fees="3.5"
+              holdLimit="2.5"
+            /> */}
           </div>
         )}
       </div>
