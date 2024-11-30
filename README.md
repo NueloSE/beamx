@@ -6,7 +6,7 @@
 
 This application revolutionizes memecoin creation by leveraging the power of [`Brian AI`](https://docs.brianknows.org/brian-api/apis) and the [`Unruggable Meme SDK`](https://github.com/keep-starknet-strange/unruggable.meme). Our platform democratizes blockchain token generation, enabling users to launch memecoins through simple, natural language prompts.
 
-#### 🌐 [Live Site](https://beamx.vercel.app/)
+#### 🌐 [Live Site](https://beamx.vercel.app](https://beamx-meme.vercel.app/)
 
 ### ✨ Key Features
 
