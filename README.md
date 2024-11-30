@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BEAMX
 
-## Getting Started
+## AI-Powered Memecoin Launch Platform
 
-First, run the development server:
+### 🚀 Project Overview
+
+This application revolutionizes memecoin creation by leveraging the power of [`Brian AI`](https://docs.brianknows.org/brian-api/apis) and the [`Unruggable Meme SDK`](https://github.com/keep-starknet-strange/unruggable.meme). Our platform democratizes blockchain token generation, enabling users to launch memecoins through simple, natural language prompts.
+
+#### 🌐 [Live Site](https://beamx.vercel.app/)
+
+### ✨ Key Features
+
+#### 1. AI-Powered Token Creation
+
+- Natural Language Processing: Transform creative ideas into blockchain tokens
+- Intuitive Input: Describe your memecoin with a simple prompt
+  - Example: `Create a memecoin named BeamX with a total supply of 1 billion tokens`
+- Automatic Parameter Extraction:
+
+  - Token name
+  - Symbol
+  - Total supply
+  - Decimal precision
+
+#### 2. Seamless Blockchain Deployment
+
+- Powered by [`Ekubo`](https://ekubo.org/) Protocol on StarkNet
+- One-click deployment without complex blockchain knowledge
+- Instant token generation and verification
+
+#### 3. Output and Feedback to Users
+
+   - After successful deployment:
+     - The user receives a URL linking to the token's page or user could check for the token directly on [`StarkScan`](https://starkscan.co/).
+   - Example output:  
+      - `Your memecoin has been deployed! View it on StarkScan: [link]`.
+
+#### 4. User-Friendly Experience
+
+- No prior blockchain or coding expertise required
+- Streamlined process from prompt to live token
+- Immediate StarkScan link upon successful deployment
+
+
+### 🔮 Roadmap and Future Enhancements
+#### Planned Features
+
+- Advanced tokenomics customization 
+- AI-driven token name and parameter suggestions
+- Multi-chain deployment support
+- NFT metadata integration
+- Community building tools
+- Real-time token analytics dashboard
+- Support for complex governance and staking mechanisms
+
+### ⚠️ Current Limitations
+
+- Brian AI API in early development stage
+- Limited to StarkNet blockchain
+- Basic parameter extraction and token creation
+
+### 🛠 Technology Stack
+
+- Frontend: Next.js
+- AI Integration: [`Brian AI API`](https://docs.brianknows.org/brian-api/apis)
+- Blockchain SDK: Unruggable Meme SDK
+- Blockchain Protocol: [`Ekubo Protocol (StarkNet)`]((https://ekubo.org/))
+
+#### 📦 Installation and Setup
+#### Prerequisites
+
+- Node.js (version 16.x or later)
+- npm or Yarn
+- StarkNet wallet
+
+### Clone the Repository
 
 ```bash
+git clone https://github.com/your-org/memecoin-launch-platform.git
+cd memecoin-launch-platform
+
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 🤝 Contributing
+We welcome contributions! Please see our CONTRIBUTING.md for details on our code of conduct and the process for submitting pull requests.
 
-## Learn More
+### 💡 Example Usage
+#### Prompt Example
+```
+Create a memecoin named BeamX with a symbol BMX total supply of 1 billion tokens
+```
+#### Deployment Output
+```
+Your memecoin has been deployed! 
+View on StarkScan: [Generated Token URL]
+```
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 📞 Support
+For issues, questions, or feedback, please open a [GitHub](https://github.com/martinvibes/beamx) issue or contact our development team.
