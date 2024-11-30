@@ -10,7 +10,15 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import UnruggableUsage from "./UnruggableUsage";
-const Popup = (name: string, symbol: string, initialSupply: string  ) => {
+
+// Define an interface for the props
+interface PopupProps {
+  name: string;
+  symbol: string;
+  initialSupply: string;
+}
+
+const Popup: React.FC<PopupProps> = ({ name, symbol, initialSupply }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>

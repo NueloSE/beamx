@@ -1,7 +1,7 @@
 "use client";
 import logo from "../../public/logo.webp";
 import Image from "next/image";
-import React, { useState, useReducer, useEffect } from "react";
+import React, { useState, useReducer } from "react";
 import { Righteous, Inter, Pacifico } from "next/font/google";
 import { callBrianAPI } from "@/app/api/brian";
 
@@ -35,15 +35,8 @@ const ChatBot = () => {
   const [name, setName] = useState("");
   const [symbol, setSymbol] = useState("");
   const [supply, setSupply] = useState("");
-  const [owner, setOwner] = useState("");
+  // const [owner, setOwner] = useState("");
   const [showButtons, setShowButtons] = useState(false);
-
-  const [tokenDetails, setTokenDetails] = useState({
-    name: "",
-    symbol: "",
-    supply: "",
-    owner: "",
-  });
 
   // const handleProceed = () => {
   //   <Popup />;

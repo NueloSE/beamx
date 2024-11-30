@@ -4,13 +4,11 @@ import {
   createMemecoin,
   launchOnStandardAMM,
   launchOnEkubo,
-  LaunchParameters,
 } from "unruggable-sdk";
 import {
   constants,
   ProviderInterface,
   RpcProvider,
-  AccountInterface,
 } from "starknet";
 
 const myProvider = new RpcProvider({ nodeUrl: constants.NetworkName.SN_MAIN });
