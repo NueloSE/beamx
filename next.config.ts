@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import type { NextConfig } from "next";
-require('dotenv').config();
+require("dotenv").config();
 
 const nextConfig: NextConfig = {
   /* config options here */
+  reactStrictMode: true,
+  swcMinify: true,
 };
 
 module.exports = {
