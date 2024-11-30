@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "toastr/build/toastr.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { StarknetProvider } from "@/components/starknet-provider";
 
