@@ -86,7 +86,7 @@ const ChatBot = () => {
         setName(name);
         setSymbol(symbol);
         setSupply(supply);
-        setOwner(owner);
+        // setOwner(owner);
         // check if action is 'deployToken'
         // if action is deploty token then check if name is not empty
         // if name is empty dont add the message to the dispatch and dont show the buttons and make the user enter again
