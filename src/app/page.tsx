@@ -1,9 +1,10 @@
 import React from "react";
 import ChatBot from "../components/Chat";
+
 import Header from "@/components/Headers";
 import TypeWriterComp from "@/components/TypeWriterComp";
 import SimpleImageSlider from "@/components/SimpleImageSlider";
-
+import BeamXUsageGuide from "@/components/usage";
 
 export default function Home() {
   return (
@@ -30,12 +31,11 @@ export default function Home() {
             </div>
           </div>
         </div>
-
       </main>
 
-      {/* Footer spacing if needed */}
-      <footer className="py-6">{/* Footer content can go here */}</footer>
-
+      <footer className="py-6">
+        <BeamXUsageGuide />
+      </footer>
     </div>
   );
 }
