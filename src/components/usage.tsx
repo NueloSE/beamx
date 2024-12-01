@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Info, Code } from "lucide-react";
+import { Info } from "lucide-react";
 
 const BeamXUsageGuide: React.FC = () => {
   return (
@@ -72,12 +72,12 @@ const BeamXUsageGuide: React.FC = () => {
                   and provide a response.
                 </p>
 
-                <Alert variant="warning">
+                <Alert >
                   <Info className="h-4 w-4" />
                   <AlertTitle>Current Launch Capabilities</AlertTitle>
                   <AlertDescription>
-                    Currently, only the "Create Memecoin" function is fully
-                    operational. The "Launch on AMMs" and "Launch on Ekubo"
+                    Currently, only the Create Memecoin function is fully
+                    operational. The Launch on AMMs and Launch on Ekubo
                     features are being debugged and are temporarily unavailable
                     due to SDK issues.
                   </AlertDescription>
@@ -88,7 +88,7 @@ const BeamXUsageGuide: React.FC = () => {
                     Proceeding After Creation
                   </h4>
                   <p className="text-muted-foreground">
-                    Once the memecoin is created, you'll see a "Proceed" button
+                    Once the memecoin is created, youll see a `Proceed` button
                     with options:
                   </p>
                   <ul className="list-disc list-inside text-muted-foreground">
@@ -111,7 +111,7 @@ const BeamXUsageGuide: React.FC = () => {
             </div>
           </section>
 
-          <Alert variant="constructive">
+          <Alert>
             <Info className="h-4 w-4" />
             <AlertTitle>Future Roadmap</AlertTitle>
             <AlertDescription>
