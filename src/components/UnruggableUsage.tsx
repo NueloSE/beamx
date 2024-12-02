@@ -5,11 +5,17 @@ import {
   launchOnStandardAMM,
   launchOnEkubo,
 } from "unruggable-sdk";
-import {
-  constants,
-  ProviderInterface,
-  RpcProvider,
-} from "starknet";
+import { constants, ProviderInterface, RpcProvider } from "starknet";
+import toastr from "toastr";
+
+// Configure toastr
+toastr.options = {
+  closeButton: true,
+  progressBar: true,
+  positionClass: "toast-top-right",
+  timeOut: 3000,
+  preventDuplicates: true,
+};
 
 const myProvider = new RpcProvider({ nodeUrl: constants.NetworkName.SN_MAIN });
 
@@ -138,6 +144,12 @@ const UnruggableUsage: React.FC<UnruggableUsageProps> = ({
     } finally {
       setLoading((prev) => ({ ...prev, launchStandardAMM: false }));
     }
+
+    setError(null);
+    toastr.info(
+      "This feature is being worked on by the unruggable meme SDK team",
+      "Coming Soon!"
+    );
   };
 
   const launchOnEkuboHandler = async () => {
@@ -183,6 +195,12 @@ const UnruggableUsage: React.FC<UnruggableUsageProps> = ({
     } finally {
       setLoading((prev) => ({ ...prev, launchEkubo: false }));
     }
+
+    setError(null);
+    toastr.info(
+      "This feature is being worked on by the unruggable meme SDK team",
+      "Coming Soon!"
+    );
   };
 
   return (
